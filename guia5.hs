@@ -106,16 +106,69 @@ maximo [x] = x
 maximo (x:xs) | x > head xs = x
               | otherwise = maximo xs
 
+--ejercicio 3.4
+sumarN :: Int -> [Int] -> [Int]
+sumarN n [x] = [(x+n)]
+sumarN n (x:xs) = (x + n) : sumarN n xs 
+
+--ejercicio 3.5
+sumarElPrimero :: [Int] -> [Int]
+sumarElPrimero [x] = [2*x]
+sumarElPrimero (x:xs) = sumarN x (x:xs)
+
+--ejercicio 3.6
+sumarElUltimo :: [Int] -> [Int]
+sumarElUltimo [x] = [2*x]
+sumarElUltimo xs = sumarN (ultimo xs) xs
+
+--ejercicio 3.7
+pares :: [Int] -> [Int]
+pares [] = []
+pares [x] | mod x 2 == 0 = [x]
+          | otherwise = []
+pares (x:xs) | mod x 2 == 0 = x : pares xs
+             | otherwise = pares xs
+
+--ejercicio 3.8
+multiplosdeN :: Int -> [Int] -> [Int]
+multiplosdeN n [x] | mod x n == 0 = [x]
+                   | otherwise = []
+multiplosdeN n (x:xs) | mod x n == 0 = x : multiplosdeN n xs
+                      | otherwise = multiplosdeN n xs
 
 --ejercicio 3.9
--- no se porque esta mal de esta forma, VER
-{--ordenar :: [Integer] -> [Integer]
+ordenar :: [Integer] -> [Integer]
+ordenar [] = []
 ordenar [x] = [x]
-ordenar (x:xs) | (minimo (x:xs)) : ordenar (quitar (minimo (x:xs)))
+ordenar xs = (minimo xs) : ordenar (quitar (minimo xs) xs)
                
 
 minimo :: [Integer] -> Integer
-minimo [x] = [x]
+minimo [x] = x
 minimo (x:xs) | x < head xs = x
-              | otherwise = minimo xs--}
+              | otherwise = minimo xs
 
+-- ejercicio 4.1
+sacarBlancosRepetidos :: [Char] -> [Char]
+sacarBlancosRepetidos [] = []
+sacarBlancosRepetidos [x] = [x]
+sacarBlancosRepetidos [x,y] | x == ' ' && y == ' ' = [' ']
+                            | otherwise = [x,y]
+sacarBlancosRepetidos (x : y : xs) | x == ' ' && y == ' ' = sacarBlancosRepetidos (x:xs)
+                                   | otherwise = x : sacarBlancosRepetidos (y:xs)
+
+--ejercicio4.2
+contarpalabras :: [Char] -> Int 
+contarpalabras [] = 0 
+contarpalabras [x] | x == ' ' = 0 
+                   | otherwise = 1
+contarpalabras [x,y] | x == ' ' && y == ' ' = 0
+                     | otherwise = 1 
+contarpalabras (x:y:xs) | x /= ' ' && y == ' ' = 1 + contarpalabras (y:xs)
+                        | otherwise = contarpalabras (y:xs)
+
+--ejercicio4.3
+palabras :: [Char] -> [[Char]]
+palabras [] = [[]]
+palabras [x] = [[x]]
+palabras 
