@@ -124,15 +124,14 @@ multiplosdeN n (x:xs) | mod x n == 0 = x : multiplosdeN n xs
 --3.9
 --ver porque me da mal, copie y pegue lo mismo 
 ordenar :: [Integer] -> [Integer]
-ordenar [] = []
 ordenar [x] = [x]
-ordenar xs = (minimo xs) : ordenar (quitar (minimo xs) xs)
+ordenar (x:xs) = (minimo (x:xs)) : ordenar (quitar (minimo (x:xs)) (x:xs))
                
 
 minimo :: [Integer] -> Integer
 minimo [x] = x
-minimo (x:xs) | x < head xs = x
-              | otherwise = minimo xs
+minimo (x:y:xs) | x < y = minimo (x:xs)
+                | otherwise = minimo (y:xs)
 
 --4.1
 sacarBlancosRepetidos :: [Char] -> [Char]
@@ -208,3 +207,29 @@ nespacios :: Int -> [Char]
 nespacios 0 = []
 nespacios 1 = [' '] 
 nespacios n = [' '] ++ nespacios (n-1) 
+
+--5.1
+sumaAcumulada :: (Num t) => [t] -> [t]
+sumaAcumulada [] = []
+sumaAcumulada [x] = [x] 
+sumaAcumulada  (x:y:xs) = x : sumaAcumulada (x+y:xs) 
+
+--5.2
+descomponerEnPrimos :: [Integer] -> [[Integer]]
+descomponerEnPrimos [] = []
+descomponerEnPrimos (x:xs) = divisoresprimos x : descomponerEnPrimos xs
+
+divisoresprimos :: Int -> [Int]
+divisoresprimos x | esPrimo x == True = [x]
+                  | otherwise = menorDivisor x : divisoresprimos (div x (menorDivisor x))
+
+menorDivisor :: Int -> Int 
+menorDivisor x = menorDivisorDesde x 2
+
+menorDivisorDesde :: Int -> Int -> Int 
+menorDivisorDesde x y | x == y = y 
+                      | mod x y == 0 = y
+                      | otherwise = menorDivisorDesde x (y+1)
+
+esPrimo :: Int -> Bool 
+esPrimo x = menorDivisor x == x
