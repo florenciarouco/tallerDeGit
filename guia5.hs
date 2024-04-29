@@ -167,8 +167,35 @@ contarpalabras [x,y] | x == ' ' && y == ' ' = 0
 contarpalabras (x:y:xs) | x /= ' ' && y == ' ' = 1 + contarpalabras (y:xs)
                         | otherwise = contarpalabras (y:xs)
 
---ejercicio4.3
-palabras :: [Char] -> [[Char]]
-palabras [] = [[]]
-palabras [x] = [[x]]
-palabras 
+--ejercicio4.4
+--hacer ejercicio 4 
+
+
+--ejerciico5.1
+sumaAcumulada :: (Num t) => [t] -> [t]
+sumaAcumulada [] = []
+sumaAcumulada [x] = [x]
+sumaAcumulada (x:y:xs) = x : sumaAcumulada ((x+y):xs)
+
+--ejercicio 5.2
+descomponerEnPrimos :: [Int] -> [[Int]]
+descomponerEnPrimos [] = []
+descomponerEnPrimos (x:xs) = factoresPrimos x : descomponerEnPrimos xs
+
+factoresPrimos :: Int -> [Int]
+factoresPrimos x | x <= 1 = []
+                 | esPrimo (fromIntegral x) = [x]
+                 | otherwise = menorDivisor x : factoresPrimos (div x (menorDivisor x))
+
+
+menorDivisor:: Int -> Int 
+menorDivisor x = menorDivisorDesde x 2 
+               
+
+menorDivisorDesde :: Int -> Int -> Int
+menorDivisorDesde x y | x == y = y
+                      | mod x y == 0 = y 
+                      | otherwise = menorDivisorDesde x (y+1)
+-- b 
+esPrimo :: Int -> Bool 
+esPrimo x = menorDivisor x == x
