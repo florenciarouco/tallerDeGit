@@ -47,7 +47,7 @@ hayRepetidos (x:xs) = pertenece x xs || hayRepetidos xs
 quitar :: (Eq t) => t -> [t] -> [t]
 quitar e [] = [] 
 quitar e (x:xs) | e == x = xs
-                | otherwise = x : quitar x xs
+                | otherwise = x : quitar e xs
 
 --2.6
 quitarTodos :: (Eq t) => t -> [t] -> [t]
@@ -125,12 +125,11 @@ multiplosdeN n (x:xs) | mod x n == 0 = x : multiplosdeN n xs
 --ver porque me da mal, copie y pegue lo mismo 
 ordenar :: [Integer] -> [Integer]
 ordenar [x] = [x]
-ordenar (x:xs) = (minimo (x:xs)) : ordenar (quitar (minimo (x:xs)) (x:xs))
-               
+ordenar (x:xs) = minimo (x:xs) : ordenar (quitar (minimo (x:xs)) (x:xs))
 
 minimo :: [Integer] -> Integer
 minimo [x] = x
-minimo (x:y:xs) | x < y = minimo (x:xs)
+minimo (x:y:xs) | x < y = minimo (x:xs) 
                 | otherwise = minimo (y:xs)
 
 --4.1
@@ -219,17 +218,20 @@ descomponerEnPrimos :: [Integer] -> [[Integer]]
 descomponerEnPrimos [] = []
 descomponerEnPrimos (x:xs) = divisoresprimos x : descomponerEnPrimos xs
 
-divisoresprimos :: Int -> [Int]
+
+
+divisoresprimos :: Integer -> [Integer]
 divisoresprimos x | esPrimo x == True = [x]
                   | otherwise = menorDivisor x : divisoresprimos (div x (menorDivisor x))
 
-menorDivisor :: Int -> Int 
+menorDivisor :: Integer -> Integer 
 menorDivisor x = menorDivisorDesde x 2
 
-menorDivisorDesde :: Int -> Int -> Int 
+menorDivisorDesde :: Integer -> Integer -> Integer 
 menorDivisorDesde x y | x == y = y 
                       | mod x y == 0 = y
                       | otherwise = menorDivisorDesde x (y+1)
 
-esPrimo :: Int -> Bool 
+
+esPrimo :: Integer -> Bool 
 esPrimo x = menorDivisor x == x
