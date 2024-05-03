@@ -22,33 +22,33 @@ votosAfirmativos :: [Int] -> Int
 votosAfirmativos [] = 0
 votosAfirmativos (x:xs) = x + votosAfirmativos xs  
 
---ejercicio 3
+--ejercicio 3 
 porcentajeDeVotos :: String -> [(String,String)] -> [Int] -> Float
-porcentajeDeVotos presidente [] [] = 0 
-porcentajeDeVotos presidente formulas x =  division ((cantidadDeVotos presidente formulas x)*100) (votosAfirmativos x) 
-
-
+porcentajeDeVotos presidente [] [] = 0
+porcentajeDeVotos presidente ((p,v):formulas) (voto:votos) = (division (cantidadDeVotos presidente ((p,v):formulas) (voto:votos)) (votosAfirmativos (voto:votos))) *100
+                                                                                                    -- preguntar porque el *100 afuera y no adentro
+                                                                  
 cantidadDeVotos :: String -> [(String,String)] -> [Int] -> Int
-cantidadDeVotos presidente ((p,v):formulas) (x:xs) | presidente == p = x 
-                                                   | otherwise = cantidadDeVotos presidente formulas xs
+cantidadDeVotos presidente [] [] = 0
+cantidadDeVotos presidente ((p,v):formulas) (voto:votos) | presidente == p = voto
+                                                         | otherwise = cantidadDeVotos presidente formulas votos
 
-division :: Int -> Int -> Float
+division :: Int -> Int -> Float 
 division a b = (fromIntegral a)/(fromIntegral b)
---"flor" [("flor","niki"),("cami","luli")] [7,2] = (7*100) / (7+2)
+--"flor" [(flor,niki),(luli,juli)] [7,2] = 7*100 / 9
+
 
 -- ejercicio 4
-proximoPresidente :: [(String,String)] -> [Int] -> String
+proximoPresidente :: [(String,String)] -> [Int] -> String 
 proximoPresidente [] [] = ""
-proximoPresidente formulas votos = proximoPresidenteAux formulas formulas votos
+proximoPresidente ((p,v):formulas) (voto:votos) | masvotado (voto:votos) == voto = p 
+                                                | otherwise = proximoPresidente formulas votos
 
 
-
-
-proximoPresidenteAux :: [(String,String)] -> [(String,String)] -> [Int] -> String
-proximoPresidenteAux ((p,v):[]) _ _ = p
-proximoPresidenteAux ((p1,v1):(p2,v2):xs) formulas votos | cantidadDeVotos (p1 formulas votos) >= cantidadDeVotos (p2 formulas votos) = proximoPresidenteAux ((p1,v1):xs) formulas votos
-                                                         | otherwise = proximoPresidenteAux ((p2,v2):xs) formulas votos
-
---[(flor,niki)(cami,luli)] [7,2] = flor
+masvotado :: [Int] -> Int
+masvotado [] = 0
+masvotado [x] = x
+masvotado (x:y:xs) | x >= y = masvotado (x:xs)
+                   | otherwise = masvotado (y:xs)
 
 
