@@ -26,7 +26,7 @@ votosAfirmativos (x:xs) = x + votosAfirmativos xs
 porcentajeDeVotos :: String -> [(String,String)] -> [Int] -> Float
 porcentajeDeVotos presidente [] [] = 0
 porcentajeDeVotos presidente ((p,v):formulas) (voto:votos) = (division (cantidadDeVotos presidente ((p,v):formulas) (voto:votos)) (votosAfirmativos (voto:votos))) *100
-                                                                                                    -- preguntar porque el *100 afuera y no adentro
+                                                                                                    
                                                                   
 cantidadDeVotos :: String -> [(String,String)] -> [Int] -> Int
 cantidadDeVotos presidente [] [] = 0

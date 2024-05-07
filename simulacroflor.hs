@@ -40,23 +40,21 @@ amigosde persona ((a,b):xs) | persona == a = b : amigosde persona xs
                             | otherwise = amigosde persona xs
 
 --ejercicio 4 
-personasconmasamigos :: [(String,String)] -> String
-personasconmasamigos [] = []
-personasconmasamigos ((a,b):xs) = personasconmasamigosaux (personas ((a,b) :xs)) ((a,b):xs)
-
-
-personasconmasamigosaux :: [String] -> [(String,String)] -> String
-personasconmasamigosaux _ [] = []
-personasconmasamigosaux [e] _ = e
-personasconmasamigosaux (e:d:ds) ((a,b):xs) | cantamigos e ((a,b):xs) >= cantamigos d ((a,b):xs) = personasconmasamigosaux (e:ds) ((a,b):xs)
-                                            | otherwise = personasconmasamigosaux (d:ds) ((a,b):xs)
-
-longitud :: [t] -> Int
+longitud :: [String] -> Integer
 longitud [] = 0
 longitud (x:xs) = 1 + longitud xs
 
-cantamigos ::  String -> [(String,String)] -> Int 
-cantamigos persona [] = 0
-cantamigos persona ((a,b) :xs) = longitud (amigosde persona ((a,b):xs))
+cantAmigos :: String -> [(String,String)] -> Integer
+cantAmigos p ((a,b):bs) = longitud (amigosDe p ((a,b):bs))
+
+personaConMasAmigosAux :: [String] -> [(String,String)] -> String
+personaConMasAmigosAux _ [] = "nadie"
+personaConMasAmigosAux [x] ((a,b):bs) = x
+personaConMasAmigosAux (x:y:xs) ((a,b):bs) | cantAmigos x ((a,b):bs) >= cantAmigos y ((a,b):bs) = personaConMasAmigosAux (x:xs) ((a,b):bs)
+                                           | otherwise = personaConMasAmigosAux (y:xs) ((a,b):bs)
+
+personaConMasAmigos :: [(String,String)] -> String
+personaConMasAmigos [] = "nadie"
+personaConMasAmigos ((a,b):bs) = personaConMasAmigosAux (personas ((a,b):bs)) ((a,b):bs)
 
 

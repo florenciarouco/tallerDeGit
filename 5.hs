@@ -18,7 +18,8 @@ principio (x:xs) = x : principio xs
 --1,4
 reverso :: [t] -> [t]
 reverso [] = []
-reverso (x:xs) = ultimo xs : reverso (principio xs)
+reverso [x] = [x]
+reverso xs = ultimo xs : reverso (principio xs)
 
 --2,1
 pertenece :: (Eq t) => t -> [t] -> Bool 
@@ -85,8 +86,8 @@ productoria (x:xs) = x * sumatoria xs
 --3.3
 maximo :: [Int] -> Int 
 maximo [x] = x
-maximo (x:xs) | x > head xs = x 
-              | otherwise = maximo xs
+maximo (x:y:xs) | x > y = maximo (x:xs)
+                | otherwise = maximo (y:xs)
 
 --3.4
 sumarN :: Int -> [Int] -> [Int]
@@ -109,7 +110,7 @@ sumarElUltimo (x:xs) = sumarN (ultimo xs) (x:xs)
 pares :: [Int] -> [Int]
 pares [] = []
 pares [x] | mod x 2 == 0 = [x] 
-             | otherwise = []
+          | otherwise = []
 pares (x:xs) | mod x 2 == 0 = x : pares xs
              | otherwise = pares xs
 
@@ -150,8 +151,6 @@ contarpalabras [x,y] | x == ' ' && y == ' ' = 0
                      | otherwise = 1
 contarpalabras (x:y:xs) | x /= ' ' && y == ' ' = 1 + contarpalabras (y:xs)
                         | otherwise = contarpalabras (y:xs)
---preguntar que significa poner [x,y] , (x:xs) , (x:y:xs) , o cuando ponen solo palabras, no se me marea. 
-
 
 --4.3
 --VER ESTE NO ENTENDI MUCHO, NO SE ME OCURRE SOLA NI DE CASUALIDAD 
@@ -218,8 +217,6 @@ descomponerEnPrimos :: [Integer] -> [[Integer]]
 descomponerEnPrimos [] = []
 descomponerEnPrimos (x:xs) = divisoresprimos x : descomponerEnPrimos xs
 
-
-
 divisoresprimos :: Integer -> [Integer]
 divisoresprimos x | esPrimo x == True = [x]
                   | otherwise = menorDivisor x : divisoresprimos (div x (menorDivisor x))
@@ -231,7 +228,6 @@ menorDivisorDesde :: Integer -> Integer -> Integer
 menorDivisorDesde x y | x == y = y 
                       | mod x y == 0 = y
                       | otherwise = menorDivisorDesde x (y+1)
-
 
 esPrimo :: Integer -> Bool 
 esPrimo x = menorDivisor x == x
