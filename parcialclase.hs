@@ -25,8 +25,8 @@ votosAfirmativos (x:xs) = x + votosAfirmativos xs
 --ejercicio 3 
 porcentajeDeVotos :: String -> [(String,String)] -> [Int] -> Float
 porcentajeDeVotos presidente [] [] = 0
-porcentajeDeVotos presidente ((p,v):formulas) (voto:votos) = (division (cantidadDeVotos presidente ((p,v):formulas) (voto:votos)) (votosAfirmativos (voto:votos))) *100
-                                                                                                    
+porcentajeDeVotos presidente ((p,v):formulas) (voto:votos) = division (cantidadDeVotos presidente ((p,v):formulas) (voto:votos) (votosAfirmativos (voto:votos))) *100
+                                                                                    
                                                                   
 cantidadDeVotos :: String -> [(String,String)] -> [Int] -> Int
 cantidadDeVotos presidente [] [] = 0
