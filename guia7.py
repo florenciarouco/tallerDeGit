@@ -146,6 +146,7 @@ def coloca0 (num:list[int]) -> None:
         i+= 2
 coloca0 ([2,1,4,3,6,7,5,9])
 
+#2.2
 def coloca0_2 (num:list[int]) -> list[int]:
     res:list[int] = num.copy ()
     i:int = 0
@@ -155,9 +156,33 @@ def coloca0_2 (num:list[int]) -> list[int]:
     return res
 print (coloca0_2 ([1,2,3,4,5]))
 
+#2.3
+def sinvocales (texto:str) -> str:
+    vocales:str = "aeiouAEIOU"
+    textosinvocales:str = ""
+    for i in range (len(texto)):
+        if pertenece (vocales,texto[i]):
+            textosinvocales += ''
+        else: 
+            textosinvocales += texto [i]
+    return textosinvocales
+print (sinvocales ("hola como estas"))
 
-    
+#2.4
+def reemplazar_vocales (texto:str) -> str:
+    vocales:str= "aeiou"
+    textosinvocales:str= ""
+    for i in range (len(texto)):
+        if pertenece (vocales,texto[i]):
+            textosinvocales += ''
+        else: 
+            textosinvocales += texto [i]
+    return textosinvocales
+text = "hola como"
+print (text)
 
+print (reemplazar_vocales (text))
+print (text)
 
 
     
