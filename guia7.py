@@ -82,7 +82,7 @@ def hayminuscula (texto:str) -> bool:
             return True
         else:
             indice += 1
-        return False
+    return False
 
 
 def haymayusc (texto:str) -> bool:
@@ -94,7 +94,7 @@ def haymayusc (texto:str) -> bool:
             return True
         else:
             indice += 1
-        return False
+    return False
 
 def haynumero (texto:str) -> bool:
     for i in range(len(texto)):
@@ -111,55 +111,53 @@ def contraseña (contraseña:str) -> str:
     return "AMARILLO"
 
 print (contraseña ("HOLACOMOESTASbienyvostodobien12345"))
-#preguntar
+
 
 #1.8
-#def saldoactual (movimientos:List[(str,int)]) -> int:
- #   saldo:int= 0
-  #  for i in range (0,len(movimientos)):
-   #     if (movimientos [i][0] == "I"):
-    #        saldo += movimientos [i][1]
-     #   elif (movimientos [i][0] == "R"):
-      #      saldo -= movimientos [i][1]
-       # return saldo
+def saldoactual (movimientos:list[(str,int)]) -> int:
+    saldo:int= 0
+    for i in range (0,len(movimientos)):
+        if (movimientos [i][0] == "I"):
+            saldo += movimientos [i][1]
+        elif (movimientos [i][0] == "R"):
+            saldo -= movimientos [i][1]
+        return saldo
 
-#ver porque no me da
-def calcularBalance(movimientos: List[(str,int)]) -> int:
-    balance: int = 0
-    for i in range(len(movimientos)):
-        tipoDeMovimiento = movimientos[i][0]
-        if tipoDeMovimiento == "I":
-            balance += movimientos[i][1]
-            continue
-        if tipoDeMovimiento == "R":
-            balance -= movimientos[i][1]
-            continue
-    return balance
-
-print (calcularBalance ([("I",300),("R",3),("I",50)]))
-
+print (saldoactual ([("I",300),("R",3),("I",50)]))
+#pregunttar luqui
 
 #1.9
-def vocalesdistintas (palabras:str) -> bool:
-    vocales:str = "aeiou"
-    cantvocales: int= 0
-    for i in range (len (palabras)):
-        iesimoCaracter: str = palabras[i]
-        if pertenece (vocales, iesimoCaracter):
-            quitartodocaracter (vocales, iesimoCaracter)  
-            cantvocales += 1
-            if cantvocales >= 3:
-                return True
-    return False 
+def vocalesdistintas (frase:str) -> bool:
+    cont = 0
+    vocales = ['a','e','i','o','u']
+    for i in frase:
+        if (i in vocales):
+            cont += 1
+            vocales.remove(i)
+    return (cont>=3)
 
-def quitartodocaracter (palabra:str, caracter:chr) -> str:
-    textonuevo: str = " "
-    for i in range (len(palabra)):
-        iesimoCaracter: str = palabra[i]
-        if iesimoCaracter != caracter:
-            textonuevo += iesimoCaracter 
-        return textonuevo 
+print (vocalesdistintas ("holaaaaaaaaa"))
 
-print (vocalesdistintas ("hlacomoestasotod bien"))
+#2.1
+def coloca0 (num:list[int]) -> None:
+    i: int = 0
+    while (i < len (num)):
+        num[i] = 0
+        i+= 2
+coloca0 ([2,1,4,3,6,7,5,9])
 
-#vereste
+def coloca0_2 (num:list[int]) -> list[int]:
+    res:list[int] = num.copy ()
+    i:int = 0
+    while (i < len (res)):
+        res[i] = 0
+        i+= 2
+    return res
+print (coloca0_2 ([1,2,3,4,5]))
+
+
+    
+
+
+
+    
