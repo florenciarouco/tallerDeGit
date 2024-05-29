@@ -1,6 +1,9 @@
 #guia7
 import math
 from typing import List 
+from typing import Tuple
+import random
+#import numpy as np
 
 #1.1
 def pertenece (s:List[int], e:int) -> bool: 
@@ -114,7 +117,7 @@ print (contraseña ("HOLACOMOESTASbienyvostodobien12345"))
 
 
 #1.8
-def saldoactual (movimientos:list[(str,int)]) -> int:
+def saldoactual (movimientos:List[Tuple[str,int]]) -> int:
     saldo:int= 0
     for i in range (0,len(movimientos)):
         if (movimientos [i][0] == "I"):
@@ -123,7 +126,7 @@ def saldoactual (movimientos:list[(str,int)]) -> int:
             saldo -= movimientos [i][1]
         return saldo
 
-print (saldoactual ([("I",300),("R",3),("I",50)]))
+print (saldoactual ([("I",2000),("R",20),("R",1000),("I",300)]))
 #pregunttar luqui
 
 #1.9
@@ -139,7 +142,7 @@ def vocalesdistintas (frase:str) -> bool:
 print (vocalesdistintas ("holaaaaaaaaa"))
 
 #2.1
-def coloca0 (num:list[int]) -> None:
+def coloca0 (num:List[int]) -> None:
     i: int = 0
     while (i < len (num)):
         num[i] = 0
@@ -147,7 +150,7 @@ def coloca0 (num:list[int]) -> None:
 coloca0 ([2,1,4,3,6,7,5,9])
 
 #2.2
-def coloca0_2 (num:list[int]) -> list[int]:
+def coloca0_2 (num:List[int]) -> List[int]:
     res:list[int] = num.copy ()
     i:int = 0
     while (i < len (res)):
@@ -184,5 +187,165 @@ print (text)
 print (reemplazar_vocales (text))
 print (text)
 
+#2.5
+def dar_vuelta_str (texto: str) -> str:
+    reverso: str = ""
+    for i in range (len(texto)-1,-1,-1):
+        reverso += texto [i]
+    return reverso 
+text = "hi how are you"
 
+print (dar_vuelta_str (text))
+
+#2.6
+def eliminar_repetidos (texto: str) -> str:
+    aparecidos: str = ""
+    textoSinRepeticiones: str = ""
+    for i in range (len(texto)):
+        caracter: chr = texto[i]
+        if not pertenece (aparecidos,caracter):
+            textoSinRepeticiones += caracter
+            aparecidos += caracter
+    return textoSinRepeticiones
+
+print (eliminar_repetidos ("hola como estas"))
+
+#3
+def todosmayoresoiguales (numeros:List[int]) -> bool:
+    for i in range (len(numeros)):
+        if numeros[i] < 4:
+            return False
+    return True
+
+print (todosmayoresoiguales ([8,9,17]))
+
+def promedio (notas:List[int]) -> float:
+    suma:int = 0
+    for i in range (len(notas)):
+        suma += notas[i]
+    return suma/len(notas)
+print (promedio ([7,8,9]))
+
+def aprobado (notas:List[int]) -> int:
+    todoaprobado: bool = todosmayoresoiguales (notas)
+    notapromedio: float = promedio(notas) 
+    if todoaprobado and notapromedio >= 7:
+        return 1
+    elif (todoaprobado and (notapromedio >= 4 and notapromedio < 7)):
+        return 2 
+    else:
+        return 3
+print (aprobado ([6,7,8]))
+
+#4.1
+def nombres_estudiantes () -> List[str]:
+    nombres:List[str] = []
+    while (True):
+        print ("Ingresa un nombre a registrar o 'list' para salir:")
+        ingresando = input()
+        if ingresando != "listo":
+            nombres.append(ingresando)
+        else:
+            return nombres
+#print (nombres_estudiantes ())
+#4.2
+def monedero () -> List[Tuple[str,int]]:
+    operaciones: List[Tuple[str,int]] = []
+    while (True):
+        print ("Ingresá el tipo de operación: 'C'argar, 'D'escontar o 'X' (salir)")
+        operacion = input ()
+        if operacion == "X":
+            return operaciones 
+        if operacion == "C" or operacion == "D":
+            print ("Ahora,  ingresa el monto de la operacion:")
+            monto: int = int(input(()))
+            operaciones.append((operacion,monto))
+
+#print (monedero())
+
+#4.3
+def sieteymedio ():
+    baraja:List[int] = [1,2,3,4,5,6,7,10,11,12]
+    mano: List[int] = []
+    suma:float = 0
+    ultimacarta:int
+    eleccion:str
+
+    while(True):
+        ultimacarta = random.choice (baraja)
+        mano.append (ultimacarta)
+        if ultimacarta <10:
+            suma += ultimacarta 
+        else: 
+            suma+= 0.5
+        print ("Agregaste una carta a tu mano")
+        if suma >7.5:
+            print ("Perdiste")
+            break
+
+        eleccion = ""
+        while(eleccion != "sigo" and eleccion != "me planto"):
+            print ("Elegi: 'sigo' o 'me planto'")
+            eleccion = input()
+        if eleccion == 'me planto':
+            print("Ganaste!")
+            break
+    print(mano)
+    print(suma)
+
+#print (sieteymedio ())
+
+#5.1
+def pertenece_a_cada_uno_version_1 (s:List[List[int]], e:int, res:List[bool]):
+    res.clear ()
+    for sublista in s:
+        if pertenece (sublista,e):
+            res.append(True)
+        else:
+            res.append(False)
+resultado:List[bool] = []
+pertenece_a_cada_uno_version_1 ([[1,2,3],[3,4,1],[4,5,6,2]],2,resultado)
+print (f"lista de bool: {resultado}")
+
+#5.2
+
+#no entendi
+
+#5.3
+def es_matriz (matriz:List[List[int]]) -> bool:
+    filas:int = len(matriz)
+    if filas == 0:
+        return False
+    columnas: int = (len(matriz[0]))
+    if columnas == 0:
+        return False
     
+    for i in range (1,filas):
+        if not len(matriz[i]) == columnas:
+            return False
+    return True 
+
+print (es_matriz ([[0,5,6,7],[1,2,3,4]]))
+
+#5.4
+def filas_ordenadas (matriz: List[List[int]]) -> bool:
+    for i in range (len(matriz)):
+        if not ordenados (matriz[i]):
+            return False
+    return True
+
+print (filas_ordenadas ([[5,6,7],[1,2,3]]))
+
+#5.5
+#def elevar_matriz_azar (d:int, p: int) -> List[List[int]]:
+ #   m = np.random.random ((d,d))**2
+#
+ #   print (f"se creo la siguiente matriz: \n {m}")
+#
+ #   resultado = np.linalg.matriz_power(m,p)
+#
+ #   print (f"el resulatado de la matriz elevada a {p}: \n {resultado}")
+
+#elevar_matriz_azar(4,2)
+#no entendi
+
