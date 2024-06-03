@@ -1,6 +1,9 @@
 from queue import LifoQueue as Pila
 import random
 from typing import List
+from queue import Queue as Cola
+import typing
+
 
 #get saca el ultimo q llego y te lo devuelve tmb 
 #put(-1) agrega -1
@@ -124,10 +127,9 @@ def agregar_frase_alprincipio (nombre_archivo:str , frase:str) -> None:
         lineas_nuevas.append(lineas[i])
     escribir_lineas(nombre_archivo,lineas_nuevas)
 
-
-
 #agregar_frase_alprincipio ("flor8.txt", "mi nombre es flor y no se nada")
     
+
 #6
 #def listar_palabras_de_archivo (nombre_archivo:str) -> List:
     #ver este
@@ -144,16 +146,20 @@ def generar_nros_alazar (cant:int, desde:int, hasta:int) -> Pila[int]:
     for _ in range (cant):
         pila.put (random.randint(desde,hasta))
     return pila
-p = generar_nros_alazar (5,20,40)
-print(p.get())
+#p = generar_nros_alazar (5,20,40)
+#while (not(p.empty())):
+#    print(p.get())
 
 #9
 def cantidad_elementos(p : Pila) -> int:
-    pila:Pila = p
+    elementos:List = []
     cant:int = 0
-    while not pila.empty():
-        pila.get()
+    while not p.empty():
+        elementos.append(p.get())
         cant += 1
+    for i in range (len(elementos)-1,-1,-1):
+        p.put(elementos[i])
+
     return cant 
 h = Pila()
 
@@ -167,12 +173,15 @@ print (cantidad_elementos (h))
 
 #10
 def buscar_el_maximo (p:Pila[int]) -> int:
-    pila: Pila[int] = p
-    maximo = pila.get()
-    while not pila.empty():
-        candidato = pila.get()
-        if candidato> maximo:
-            maximo = candidato
+    elementos:List = []
+    while not p.empty():
+        elementos.append(p.get())
+    for i in range (len(elementos)-1,-1,-1):
+        p.put(elementos[i])
+    maximo: int = elementos [0]
+    for elem in elementos:
+        if (elem > maximo):
+            maximo = elem
     return maximo
 p = Pila()
 
@@ -183,7 +192,6 @@ p.put(10)
 p.put(4)
 p.put(20)
 p.put (5)
-
 print (buscar_el_maximo (p))
 
 #11
@@ -207,7 +215,6 @@ def esta_bien_balanceada (formula:str) -> bool:
 #????
 
 #12
-
 def separar_en_palabras(linea: str) -> List[str]:
     palabras: List[str] = []
     palabra: str = ""
@@ -274,5 +281,25 @@ def evaluar_expresion (s:str) -> float:
 
 #ver, no entendi mucho.
 
+#13 
+def generar_nros_al_azar (cantidad:int, desde:int, hasta:int) -> Cola[int]:
+    cola : Cola[int]= Cola()
+    pila:Pila[int] = generar_nros_alazar(cantidad, desde, hasta)
+    while not pila.empty():
+        numero= pila.get()
+        cola.put (numero)
+    return cola
 
-        
+cola = generar_nros_alazar (4,1,10)
+while (not(cola.empty())):
+    print (cola.get())
+
+
+
+#19
+
+
+
+
+
+
