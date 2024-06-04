@@ -1,7 +1,7 @@
 from queue import LifoQueue as Pila
 import random
 from typing import List
-from queue import Queue as Cola
+
 import typing
 
 
@@ -16,7 +16,7 @@ def contarlineas (nombrearchivo:str) -> int:
     archivo.close()
     return len (archivo_lineas)
 
-print (contarlineas ("flor8.txt"))
+#print (contarlineas ("flor8.txt"))
 
 #otra forma 
 #def contar_lineas (nombre_archivo: str) -> int:
@@ -51,7 +51,7 @@ def contiene_palabra (texto:str, palabra:str) -> bool:
             caracter = 0
     return False 
 
-print (existe_palabra ("hola", "flor8.txt"))
+#print (existe_palabra ("hola", "flor8.txt"))
 
 #1.3
 def cantidad_apariciones (nombre_archivo:str, palabra:str) -> int:
@@ -62,7 +62,7 @@ def cantidad_apariciones (nombre_archivo:str, palabra:str) -> int:
             cant += 1
     return cant
 
-print (cantidad_apariciones ("flor8.txt","hola"))
+#print (cantidad_apariciones ("flor8.txt","hola"))
 
 
 #2
@@ -115,7 +115,7 @@ def agregar_frase_al_final (nombre_archivo:str, frase:str):
     lineas[-1] = lineas[-1] + '\n'
     lineas.append(frase)
     escribir_lineas (nombre_archivo, lineas)
-#agregar_frase_al_final ("flor8.txt", "chauuuuuuuuu")
+#agregar_frase_al_final ("flor8.txt", "holsrfr frkf fkcnr")
 
 #5 
 def agregar_frase_alprincipio (nombre_archivo:str , frase:str) -> None:
@@ -127,7 +127,7 @@ def agregar_frase_alprincipio (nombre_archivo:str , frase:str) -> None:
         lineas_nuevas.append(lineas[i])
     escribir_lineas(nombre_archivo,lineas_nuevas)
 
-#agregar_frase_alprincipio ("flor8.txt", "mi nombre es flor y no se nada")
+#agregar_frase_alprincipio ("flor8.txt", "hola como estas dsy flor y deinfejjeb")
     
 
 #6
@@ -169,7 +169,7 @@ h.put(50)
 h.put(10)
 h.put(20)
 h.put (5)
-print (cantidad_elementos (h))
+#print (cantidad_elementos (h))
 
 #10
 def buscar_el_maximo (p:Pila[int]) -> int:
@@ -192,7 +192,7 @@ p.put(10)
 p.put(4)
 p.put(20)
 p.put (5)
-print (buscar_el_maximo (p))
+#print (buscar_el_maximo (p))
 
 #11
 def esta_bien_balanceada (formula:str) -> bool:
@@ -279,27 +279,127 @@ def evaluar_expresion (s:str) -> float:
 #print (evaluar_expresion ("3 4 + 5 * 2 -"))
 
 
-#ver, no entendi mucho.
+#ver, no entendi mucho."""
 
 #13 
-def generar_nros_al_azar (cantidad:int, desde:int, hasta:int) -> Cola[int]:
+from queue import Queue as Cola
+def generarcolaalazar (cantidad:int, desde:int, hasta:int) -> Cola[int]:
     cola : Cola[int]= Cola()
     pila:Pila[int] = generar_nros_alazar(cantidad, desde, hasta)
     while not pila.empty():
         numero= pila.get()
         cola.put (numero)
     return cola
+#p = generarcolaalazar (5,20,40)
+#while (not(p.empty())):
+#    print(p.get())
 
-cola = generar_nros_alazar (4,1,10)
-while (not(cola.empty())):
-    print (cola.get())
+#14
+def cantidad_elementos_cola(c : Cola) -> int:
+    elementos:List = []
+    cant:int = 0
+    while not c.empty():
+        elementos.append(c.get())
+        cant += 1
+    for i in range (len(elementos)-1,-1,-1):
+        c.put(elementos[i])
+
+    return cant 
+h = Cola()
+
+h.put(3)
+h.put(2456)
+h.put(50)
+h.put(10)
+h.put(3)
+h.put(20)
+h.put (5)
+#print (cantidad_elementos_cola (h))
+
+#15
+def buscarelmaximo (c:Cola[int]) -> int:
+    elementos: List = []
+    while not c.empty():
+        elementos.append(c.get())
+    for i in range (len(elementos)-1,-1,-1):
+        c.put(elementos[i])
+    maximo:int = elementos [0]
+    for elem in elementos:
+        if (elem > maximo):
+            maximo = elem
+    return maximo 
+c = Cola()
+
+c.put(5)
+c.put(67)
+c.put(2)
+c.put(89)
+c.put(7)
+#print (buscarelmaximo (c))
+
+#16.1
+def armar_secuencia_de_bingo() -> Cola[int]:
+    return generarcolaalazar(100,0,99)
+
+#p = armar_secuencia_de_bingo ()
+#while (not(p.empty())):
+#    print(p.get())
+
+#16.2
+def copiar_cola(c:Cola) -> Cola:
+    cola_aux:Cola = Cola()
+    res:Cola = Cola()
+
+    while not c.empty():
+        cola_aux.put(c.get())
+    
+    while not cola_aux.empty():
+        res.put(cola_aux.get())
+    return res
+
+def pertenece_num(numero:int, lista:List[int]) -> bool:
+    for i in lista:
+        if numero == i:
+            return True
+    return False
+
+def jugar_carton_de_bingo (carton:List[int], bolillero:Cola[int]) -> int:
+    tarjeta:List[int] = carton.copy()
+    bolilla:Cola = copiar_cola(bolillero)
+    jugadas:int = 0
+    bingo:int = 0
+    while 12 > bingo:
+        elemento:int = bolilla.get()
+        if pertenece_num (elemento,tarjeta):
+            bingo += 1
+            jugadas +=1
+        else:
+            jugadas +=1
+    return jugadas 
 
 
+#PREGUNTAR BIEN ESTO 
+#c:List[int] = random.sample(range(0,99),12) 
+#b:Cola = armar_secuencia_de_bingo()
 
-#19
+#print(jugar_carton_de_bingo(c, b))
 
+#17
+def n_pacientes_urgentes(c:Cola[(int,str,str)]) -> int:
+    cola:Cola = copiar_cola(c)
+    rango:List[int] = [1,2,3]
+    urgentes:int = 0
+    while not cola.empty():
+        elemento = cola.get()   #esto es lo que no entiendo bien
+        if pertenece_num (elemento[0],rango):
+            urgentes += 1
+    return urgentes 
 
+c = Cola()
+c.put((1, "camila", "cardio"))
+c.put((5, "marcela", "cirugia"))
+c.put((1, "nicole", "plastico"))
+c.put((6, "gabriel", "clinica"))
+c.put((3, "wendy", "trauma"))
 
-
-
-
+print(n_pacientes_urgentes(c))
