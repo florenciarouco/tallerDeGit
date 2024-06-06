@@ -403,3 +403,9 @@ c.put((6, "gabriel", "clinica"))
 c.put((3, "wendy", "trauma"))
 
 print(n_pacientes_urgentes(c))
+
+
+
+
+
+    

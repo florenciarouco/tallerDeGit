@@ -72,7 +72,7 @@ def palindromo (palabras:str) -> bool:
     for i in range (len(palabras)):
         if palabras [i] != palabras [len(palabras)-1-i]:
             return False
-        return True
+    return True
 print (palindromo ("anita lava la tinta")) #ver
 
 #1.7
