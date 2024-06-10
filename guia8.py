@@ -407,5 +407,73 @@ print(n_pacientes_urgentes(c))
 
 
 
+def separarenpalabras (linea:str) -> List:
+    separadas:List[str] = []
+    palabras= ""
+    for i in range (len(linea)):
+        if linea[i] == ' ' or linea[i] == '"' or linea[i] == '\n' or linea[i] == '\r' or linea[i] == '\t':
+            if len(palabras) >0:
+                separadas.append(palabras)
+                palabras = ''
+        else:
+            palabras += linea[i]
+    if len(palabras) >0:
+        separadas.append(palabras)
+    return separadas
 
-    
+#print (separarenpalabras("hola como estas"))
+
+def pertenece(a:str, b: List[str]) -> bool:
+    indice: int = 0
+    while indice < len(b):
+        if b[indice] == a:
+            return True
+        else: indice += 1
+    return False
+
+def agrupar_por_longitud(nombre_archivo:str) -> dict:
+    archivo: typing.IO = open(nombre_archivo, "r")
+    linea:str 
+    diccionario: dict = dict() #para crear diccionarios
+
+    for linea in archivo:
+        palabras = separarenpalabras(linea)
+        for palabra in palabras:
+            if pertenece(len(palabra), list(diccionario.keys())):
+                diccionario[len(palabra)] += 1
+            else:
+                diccionario[len(palabra)] = 1
+    archivo.close()
+    return diccionario
+
+#print(agrupar_por_longitud("flor8.txt"))
+
+#21
+def cantidad_de_apariciiones (nombre_archivo:str) -> dict:
+    archivo:typing.IO = open(nombre_archivo, 'r')
+    diccionario:dict = dict()
+
+    for linea in archivo:
+        palabras:List[str] = separarenpalabras (linea)
+        for texto in palabras:
+            if texto in diccionario.keys():
+                diccionario [texto] += 1
+            else: 
+                diccionario [texto] = 1
+    archivo.close()
+    return diccionario
+#print (cantidad_de_apariciiones("flor8.txt"))
+
+def la_palabra_mas_frecuente (nombre_archivo:str) -> str:
+    archivo:typing.IO = open(nombre_archivo, 'r')
+    diccionario:dict = cantidad_de_apariciiones (nombre_archivo)
+    maximo_actual:int = 0
+    palabra_frecuente:str = ""
+
+    for palabra, cantidad in diccionario.items():
+        if cantidad > maximo_actual:
+            cantidad = maximo_actual
+            palabra_frecuente = palabra
+    return palabra_frecuente
+
+#print (la_palabra_mas_frecuente("flor8.txt")) #no deberia dar hola??

@@ -170,7 +170,7 @@ def jugar_carton_de_bingo (carton: List[int], bolillero:Cola) -> int:
             jugadas += 1
     return jugadas 
 
-#print (jugar_carton_de_bingo ([3,12,15,24,28,36,48,42,50,80,77,65], armar_secuencia_de_bingo ())) 
+print (jugar_carton_de_bingo ([3,12,15,24,28,36,48,42,50,80,77,65], armar_secuencia_de_bingo ())) 
 
 #17
 def n_pacientes_urgentes (c:Cola) -> int:
@@ -258,7 +258,7 @@ def separarenpalabras (linea:str) -> List:
     separadas:List[str] = []
     palabras= ""
     for i in range (len(linea)):
-        if linea[i] == ' ' or linea[i] == '"' or linea[i] == '\n' or linea[i] == '\r' or linea[i] == '\t':
+        if linea[i] == ' ' or linea[i] == '\n' or linea[i] == '\r' or linea[i] == '\t':
             if len(palabras) >0:
                 separadas.append(palabras)
                 palabras = ''
@@ -267,75 +267,130 @@ def separarenpalabras (linea:str) -> List:
     if len(palabras) >0:
         separadas.append(palabras)
     return separadas
+#print (separarenpalabras ("hola soy flor\ny vos como estas\nholahola hola holaa"))
 
-#print (separarenpalabras("hola como estas"))
-
-def pertenece(a:str, b: List[str]) -> bool:
-    indice: int = 0
-    while indice < len(b):
-        if b[indice] == a:
-            return True
-        else: indice += 1
-    return False
-
-def agrupar_por_longitud(nombre_archivo:str) -> dict:
-    archivo: typing.IO = open(nombre_archivo, "r")
-    linea:str 
-    diccionario: dict = dict() #para crear diccionarios
-
-    for linea in archivo:
-        palabras = separarenpalabras(linea)
-        for palabra in palabras:
-            if pertenece(len(palabra), list(diccionario.keys())):
-                diccionario[len(palabra)] += 1
-            else:
-                diccionario[len(palabra)] = 1
+def agrupar_por_longitud (nombre_archivo:str) -> dict:
+    archivo:typing.IO = open(nombre_archivo, 'r')
+    lineas:List[str] = separarenpalabras (archivo.read())
     archivo.close()
+    diccionario:dict = dict()
+    for i in lineas:
+        if len(i) in diccionario.keys():
+            diccionario [len(i)] += 1 # diccionario [clave] = valor
+        else:
+            diccionario [len(i)] = 1
     return diccionario
-
-#print(agrupar_por_longitud("flor8.txt"))
+#print (agrupar_por_longitud ("flor.txt"))
 
 #21
-def cantidad_de_apariciiones (nombre_archivo:str) -> dict:
-    archivo:typing.IO = open(nombre_archivo, 'r')
-    diccionario:dict = dict()
 
-    for linea in archivo:
-        palabras:List[str] = separarenpalabras (linea)
-        for texto in palabras:
-            if texto in diccionario.keys():
-                diccionario [texto] += 1
-            else: 
-                diccionario [texto] = 1
-    archivo.close()
-    return diccionario
-#print (cantidad_de_apariciiones("flor8.txt"))
+#{'hola': 2, 'soy': 1, 'flor': 5, 'y': 1, 'vos': 1, 'como': 1, 'estas': 1, 'holahola': 2, 'holaa': 1}
 
+#clave        valor
+#"hola" 2 (cantidad de apariciones)         
 def la_palabra_mas_frecuente (nombre_archivo:str) -> str:
     archivo:typing.IO = open(nombre_archivo, 'r')
-    diccionario:dict = cantidad_de_apariciiones (nombre_archivo)
-    maximo_actual:int = 0
-    palabra_frecuente:str = ""
+    lineas:List[str] = separarenpalabras (archivo.read())
+    archivo.close()
+    diccionario:dict = dict()
+    for i in lineas:
+        if i in diccionario.keys():
+            diccionario [i] += 1
+        else:
+            diccionario [i] = 1
+    lista = list(diccionario.items())
+    i:int = 1
+    maximo_actual:int = (lista[0])[1]
+    palabra_actual:str = (lista[0])[0]
+    while i < len(lista):
+        candidato:int= (lista[i])[1]
+        if maximo_actual < candidato:
+            maximo_actual = candidato 
+            palabra_actual = (lista[i])[0]
+        i += 1
+    return palabra_actual
+print (la_palabra_mas_frecuente ("flor.txt"))
 
-    for palabra, cantidad in diccionario.items():
-        if cantidad > maximo_actual:
-            cantidad = maximo_actual
-            palabra_frecuente = palabra
-    return palabra_frecuente
 
-#print (la_palabra_mas_frecuente("flor8.txt")) #no deberia dar hola??
 
 #22
 
+historiales:dict = dict()
+
+def visitar_sitio (historiales:dict, usuario:str,sitio:str) -> None:
+    if not usuario in historiales.keys():
+        sitios:Pila = Pila()
+        historiales[usuario] = sitios
+
+    if usuario in historiales.keys():
+        historiales[usuario].put(sitio)
+
+#visitar_sitio(historiales, "flor", "google")
+#visitar_sitio (historiales, "flor", "youtube")
+
+#print (historiales["flor"].queue)
+
+def navegar_sitios (historiales:dict, usuario:str) -> None:
+    actual: str = historiales[usuario].get()
+    anterior:str = historiales[usuario].get()
+    historiales[usuario].put(actual)
+    historiales[usuario].put(anterior)
+#navegar_sitios (historiales,"flor")
+#print (historiales["flor"].queue)
+
+
+#23
+inventario = {}   
+# clave                   valor
+# nombre       diccionario (precio,cantidad) 
+#23.1
+def agregar_producto (inventario, nombre, precio, cantidad):
+    inventario[nombre] = {"precio":precio, "cantidad":cantidad}
+#print(agregar_producto (inventario, "remera", 20, 3))
+
+#23.2
+def actualizar_stock (inventario, nombre, cantidad):
+    inventario [nombre]["cantidad"] = cantidad
+
+#agregar_producto (inventario, "remera", 20, 3)
+#print (actualizar_stock (inventario, "remera", 4))
+
+#23.3
+def actualizar_precios (inventario,nombre,precio) :
+    inventario[nombre]["precio"] = precio
+
+#agregar_producto (inventario, "remera", 20, 3)
+#print (actualizar_precios (inventario, "remera", 4))
+
+#23.4
+def calcular_valor_inventario (inventario) -> float:
+    total:int = 0
+    lista = list(inventario.items())
+    for i in lista:
+        dic = i[1]
+        total += dic["precio"] * dic["cantidad"]
+    return total
+
+agregar_producto (inventario,"remera", 20,10)
+agregar_producto (inventario, "pantalon", 30,30)
 
 
 
+print (calcular_valor_inventario (inventario))
 
 
+#para cambiar un calor de dic
+#dic[clave] = nuevo valor 
 
+# dic = {remera:{precio:20,cantidad:3},producto2:{precio:10,cantidad:2}}
+#dic[remera][precio] = 20
 
-
-
+#
+#diccionario.values () = lista de valores 
+#diccioanrio.keys () = lista de claves
+#diccionario.items () = lista de tuplas con clave, valor
+#diccionario [clave] = valor
+#se puede usar in como pertenece
 
 
 #para ver si existe una clave -> if clave in dicc.keys ()
@@ -346,3 +401,9 @@ def la_palabra_mas_frecuente (nombre_archivo:str) -> str:
 #para acceder dicc[clave]
 #dicc:dict[str,int]
 #para asignar dicc[clave] = valor
+
+
+
+
+
+
