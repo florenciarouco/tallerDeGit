@@ -36,6 +36,14 @@ def copiar_pila (p:Pila) -> Pila:
         p.put(saco_again)
     return copia
 
+p =Pila()
+p.put(45)
+p.put(3)
+p.put(7)
+p.put(9)
+#print (copiar_pila(p).queue)
+
+
 #PREGUNTAR COMO COMPROBAR
 def cantidad_elementos (p:Pila) -> int:
     cantidad:int = 0
